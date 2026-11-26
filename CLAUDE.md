@@ -4,8 +4,13 @@ Learning game for Mark's kids (ages 10–12) built on the Marble Skill Taxonomy 
 
 ## Data
 
-- `topics.js` is **generated** by `select.py`, a scratch script that was not kept. It picks topics by ID suffix from Marble's `data/topics.json` and `dependencies.json`, connects the chosen topics through Marble's transitive prerequisites, then transitively reduces those links within each constellation.
-- To change the star list, re-download the Marble data and regenerate rather than hand-editing. `topics.js` is CC BY-SA 4.0 and must keep its attribution header.
+- `topics.js` is **generated** by `tools/select_topics.py`. The script picks topics by ID suffix (the `CONSTELLATIONS` table) from Marble's `data/topics.json` and `dependencies.json`, connects the chosen topics through Marble's transitive prerequisites, then transitively reduces those links within each constellation.
+- To change the star list:
+  1. Download `topics.json` and `dependencies.json` from the os-taxonomy repo into a scratch folder.
+  2. Edit the `CONSTELLATIONS` table.
+  3. Run `python -I tools/select_topics.py <data dir> topics.js` with `PYTHONIOENCODING=utf-8`.
+  4. Write questions for any new star, or `node tools/validate.js` fails.
+- `topics.js` is CC BY-SA 4.0 and must keep its attribution header.
 - Marble's em dashes in descriptions are genuine, not encoding damage.
 
 ## Question formats (`q-*.js`)
@@ -22,6 +27,15 @@ Learning game for Mark's kids (ages 10–12) built on the Marble Skill Taxonomy 
 - **Hyperjump.** Retrying a failed Hyperjump must stay a jump (5/5 needed) while the star is locked.
 - **Comet timer.** It runs on `requestAnimationFrame` with each step capped at 250 ms. In a hidden browser pane it barely moves, so use `?cometsecs=4` to test the end of a run.
 - **Storage.** `localStorage` key `skillgalaxy_v1` = `{last, muted, players: {Name: {stars: {id: {r, n, d}}, dust, comet, seen}}}`. `r`: 1 = lit by Hyperjump, 2 = 4/5, 3 = 5/5.
+
+## Deploy
+
+- **Where it lives.** Repo: https://github.com/mjburley/skill-galaxy (public). Live on GitHub Pages from `main` at the root: https://mjburley.github.io/skill-galaxy/
+- **How to deploy.** Commit and push; Pages rebuilds in under a minute.
+- **How to verify.** Curl **every** file on the live URL (index, style, helpers, topics, game, each `q-*.js`), because Pages is case-sensitive.
+- **Commit identity.** Commits use Mark's GitHub no-reply email: `git config user.email 67462615+mjburley@users.noreply.github.com` (set locally in this repo). Don't commit with a personal address.
+- **Auto mode.** It blocks `gh repo create --public` as a possible information leak. Ask Mark first, then run it.
+- **Line endings.** After a rebase, the working copy has CRLF line endings while git stores LF. When comparing live files with the disk, strip `\r` first.
 
 ## Running
 

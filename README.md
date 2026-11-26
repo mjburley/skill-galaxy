@@ -19,6 +19,9 @@ Play: open `index.html`, or serve the folder (`python -m http.server`).
 | `topics.js` | Constellations and stars, adapted from the Marble taxonomy (CC BY-SA 4.0) |
 | `q-*.js` | Question banks (8 per star) and maths generators (new questions every time) |
 | `tools/validate.js` | `node tools/validate.js` checks every bank and generator |
+| `tools/select_topics.py` | Regenerates `topics.js` from the Marble data files |
+
+Play online: https://mjburley.github.io/skill-galaxy/
 
 ## Credits and licences
 
