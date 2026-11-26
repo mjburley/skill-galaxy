@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e2a">
+<title>Skill Galaxy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<!-- Top bar (hidden on the title screen) -->
+<header id="bar" class="hidden">
+    <button class="icon-btn" id="btn-back" aria-label="Back">⬅️</button>
+    <div id="bar-title"></div>
+    <div id="bar-stats">
+        <span class="pill" id="pill-player"></span>
+        <span class="pill" title="Stardust"><span aria-hidden="true">✨</span> <b id="dust">0</b></span>
+        <span class="pill" title="Stars lit"><span aria-hidden="true">⭐</span> <b id="lit">0</b></span>
+    </div>
+    <div id="bar-tools">
+        <button class="icon-btn" id="btn-comet" aria-label="Comet run">☄️</button>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound on">🔊</button>
+        <button class="icon-btn" id="btn-full" aria-label="Full screen">⛶</button>
+    </div>
+</header>
+
+<main>
+    <!-- Title -->
+    <section id="screen-title" class="screen active" aria-labelledby="title-h">
+        <div class="title-wrap">
+            <div class="orbit" aria-hidden="true"><span>🪐</span><span>⭐</span><span>☄️</span></div>
+            <h1 id="title-h">Skill Galaxy</h1>
+            <p class="tagline">How many stars of knowledge can you light?</p>
+            <div id="player-pick" role="radiogroup" aria-label="Who is playing?"></div>
+            <button class="big-btn" id="btn-start"><span aria-hidden="true">🚀</span> Let's explore</button>
+            <div class="title-links">
+                <button class="link-btn" id="btn-scores"><span aria-hidden="true">🏆</span> Family scores</button>
+                <button class="link-btn" id="btn-about"><span aria-hidden="true">ℹ️</span> For grown-ups</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galaxy overview -->
+    <section id="screen-galaxy" class="screen" aria-label="Galaxy map">
+        <p class="instruction" id="galaxy-msg">Pick a constellation to explore.</p>
+        <div id="galaxy-grid"></div>
+    </section>
+
+    <!-- One constellation (skill tree) -->
+    <section id="screen-const" class="screen" aria-label="Constellation">
+        <p class="instruction" id="const-msg"></p>
+        <div id="tree-wrap"><svg id="tree" role="group"></svg></div>
+    </section>
+
+    <!-- Mission -->
+    <section id="screen-mission" class="screen" aria-label="Mission">
+        <div class="mission-card">
+            <div class="mission-top">
+                <div id="pips" aria-label="Progress"></div>
+                <div id="streak" aria-live="polite"></div>
+                <div id="timer" class="hidden"><div id="timer-fill"></div></div>
+            </div>
+            <div id="question" aria-live="polite"></div>
+            <div id="answers"></div>
+            <form id="typed" class="hidden" autocomplete="off">
+                <input id="typed-in" type="text" inputmode="decimal" aria-label="Your answer" enterkeyhint="done" spellcheck="false">
+                <span id="typed-unit"></span>
+                <button type="submit" class="big-btn small" id="typed-go"><span aria-hidden="true">✔️</span> Check</button>
+            </form>
+            <div id="feedback" aria-live="polite"></div>
+            <button class="big-btn hidden" id="btn-next"><span aria-hidden="true">➡️</span> Next</button>
+        </div>
+    </section>
+
+    <!-- Mission result -->
+    <section id="screen-result" class="screen" aria-label="Result">
+        <div class="result-card">
+            <div id="result-star" aria-hidden="true"></div>
+            <h2 id="result-h"></h2>
+            <p id="result-msg"></p>
+            <div id="result-dust"></div>
+            <div class="result-btns">
+                <button class="big-btn" id="btn-result-go"></button>
+                <button class="big-btn ghost" id="btn-result-retry"><span aria-hidden="true">🔁</span> Try again</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Star details sheet -->
+<div id="sheet-back" class="hidden"></div>
+<div id="sheet" class="hidden" role="dialog" aria-modal="true" aria-labelledby="sheet-h">
+    <button class="icon-btn sheet-close" id="sheet-close" aria-label="Close">✖️</button>
+    <div id="sheet-body"></div>
+</div>
+
+<div id="toast" aria-live="polite"></div>
+
+<script>
+    // Question banks register themselves here (q-*.js files)
+    window.SG_BANK = {};
+    window.SG_GENS = {};
+    window.SG_Q = function (obj) { for (var k in obj) window.SG_BANK[k] = (window.SG_BANK[k] || []).concat(obj[k]); };
+    window.SG_GEN = function (obj) { for (var k in obj) window.SG_GENS[k] = obj[k]; };
+</script>
+<script src="helpers.js"></script>
+<script src="topics.js"></script>
+<script src="q-maths.js"></script>
+<script src="q-space.js"></script>
+<script src="q-life.js"></script>
+<script src="q-earth.js"></script>
+<script src="q-english.js"></script>
+<script src="q-digital.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
