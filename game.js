@@ -561,7 +561,10 @@
             const inp = $('#typed-in');
             inp.value = ''; inp.disabled = false; inp.className = '';
             inp.setAttribute('inputmode', keyboardFor(m.mode === 'comet' ? it.star : m.id, it));
-            inp.placeholder = /^-?\d+ \d+\/\d+$/.test(it.ans) ? 'e.g. 2 3/4' : /^-?\d+\/\d+$/.test(it.ans) ? 'e.g. 3/4' : 'Type your answer';
+            // Format hint only where the question already demands that form (exact answers),
+            // so the hint never tells a child anything about the answer.
+            inp.placeholder = it.exact && /^-?\d+ \d+\/\d+$/.test(it.ans) ? 'e.g. 2 3/4'
+                : it.exact && /^-?\d+\/\d+$/.test(it.ans) ? 'e.g. 3/4' : 'Type your answer';
             $('#typed-unit').textContent = it.unit || '';
             $('#typed-go').disabled = false;
             setTimeout(() => inp.focus(), 50);
