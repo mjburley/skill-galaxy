@@ -354,7 +354,7 @@
             const st = status(id), r = rating(id), { x, y } = pos[id];
             const lines = wrapLabel(starName(id), labelMax);
             const label = lines.map((l, i) => `<tspan x="0" dy="${i ? 15 : 0}">${esc(l)}</tspan>`).join('');
-            const stLabel = { lit: 'lit ' + sparks(r).length + ' of 3 sparkles', ready: 'ready to play', locked: 'locked', soon: 'coming soon' }[st];
+            const stLabel = { lit: 'lit ' + sparks(r).length + ' of 3 sparkles', ready: 'ready to play', locked: 'locked, Hyperjump available', soon: 'coming soon' }[st];
             const cls = 'node ' + (st === 'soon' ? 'locked' : st) + (state.justLit.includes(id) ? ' just-lit' : '');
             nodes += `<g class="${cls}" data-id="${id}" transform="translate(${x},${y})" tabindex="0" role="button" aria-label="${esc(starName(id))}, ${stLabel}">` +
                 `<circle class="hit" r="34"/>` +
@@ -362,6 +362,7 @@
                 `<circle class="core" r="${st === 'lit' ? 15 : st === 'ready' ? 13 : 10}"/>` +
                 (st === 'lit' ? `<text class="sparks" y="-22">${sparks(r)}</text>` : '') +
                 (st === 'locked' || st === 'soon' ? `<text class="lock" y="5" aria-hidden="true">${st === 'soon' ? '…' : '🔒'}</text>` : '') +
+                (st === 'locked' ? `<g class="jump-badge" transform="translate(16,-14)" aria-hidden="true"><circle r="10"/><text y="4">🌀</text></g>` : '') +
                 `<text class="label" y="34">${label}</text></g>`;
         });
         svg.innerHTML = SVG_DEFS + edges + nodes;
@@ -371,10 +372,12 @@
         });
         const lit = c.stars.filter(id => isLit(id)).length;
         const gold = c.stars.filter(id => rating(id) === 3).length;
+        const jumpTip = c.stars.some(id => status(id) === 'locked')
+            ? '<span class="jump-tip">Know it already? Tap a <b>🌀 locked star</b> to Hyperjump — 5 out of 5 lights it and the stars below it.</span>' : '';
         $('#const-msg').innerHTML = lit === c.stars.length
             ? (gold === c.stars.length ? 'Every star here is ✦✦✦ — a perfect constellation! 🏅' : 'Constellation complete! 🏅 Replay stars to earn ✦✦✦ on each one.')
-            : lit === 0 ? 'Tap a glowing star to start a mission. Get 4 out of 5 right to light it.'
-                : 'Light a star to unlock the stars that build on it.';
+            : (lit === 0 ? 'Tap a glowing star to start a mission. Get 4 out of 5 right to light it.'
+                : 'Light a star to unlock the stars that build on it.') + jumpTip;
         if (state.newlyReady.length) {
             const names = state.newlyReady.map(starName);
             setTimeout(() => { sound.unlock(); toast('🔓 New star' + (names.length > 1 ? 's' : '') + ' unlocked: ' + esc(names.join(', '))); }, 500);

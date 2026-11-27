@@ -168,6 +168,11 @@ main { position: relative; z-index: 1; height: 100%; }
 .node.lit .core { fill: url(#gold); stroke: #fff6bf; stroke-width: 2; filter: url(#glow); }
 .node .sparks { fill: var(--gold); font-size: 12px; text-anchor: middle; }
 .node .lock { font-size: 13px; text-anchor: middle; }
+.node .jump-badge circle { fill: #5a2bb0; stroke: #c99bff; stroke-width: 1.5; filter: drop-shadow(0 0 4px #b36bff); }
+.node .jump-badge text { font-size: 12px; text-anchor: middle; animation: spin 5s linear infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.jump-tip { display: block; margin-top: 4px; font-size: 0.85em; font-weight: 500; color: #d7b8ff; }
+.jump-tip b { color: #e9d5ff; }
 .node:hover .core, .node:focus-visible .core { stroke: var(--gold); stroke-width: 4; }
 .node:focus-visible .hit { stroke: var(--gold); stroke-width: 2; stroke-dasharray: 4 4; }
 .node.just-lit .core { animation: burst 1.2s ease-out; transform-box: fill-box; transform-origin: center; }
